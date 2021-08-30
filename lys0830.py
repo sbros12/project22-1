@@ -3,8 +3,8 @@ import pandas
 import datetime 
 import time
 
-access = "WZja7X9rBvpkD1hI8vObzPX42QXUxuxr5OHxcaGd"
-secret = "PUWIfPC5zC6lKDpfHUX22jhCsCsQECVYkxzlGDCb"
+access = ""
+secret = ""
 
 # RSI get start
 def rsi(ohlc: pandas.DataFrame, period: int = 14): 
