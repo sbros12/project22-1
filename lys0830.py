@@ -20,7 +20,7 @@ def rsi(ohlc: pandas.DataFrame, period: int = 14):
     return pandas.Series(100 - (100/(1 + RS)), name = "RSI")
 
 # coin list
-coinlist = ["KRW-BCHA", "KRW-ADA", "KRW-XLM", "KRW-BCH", "KRW-QTUM", "KRW-EOS", "KRW-XTZ", "KRW-BCH", "KRW-WAVES", "KRW-FLOW", "KRW-BTC", "KRW-SRM", "KRW-AXS", "KRW-PLA", "KRW-XRP", "KRW-SAND", "KRW-BTG", "KRW-BSV", "KRW-ETC"]  
+coinlist = ["KRW-KAVA", "KRW-MTL", "KRW-ZIL", "KRW-ETH", "KRW-EOS", "KRW-NEAR", "KRW-SBD", "KRW-BORA", "KRW-WAVES", "KRW-FLOW", "KRW-SRM", "KRW-AXS", "KRW-PLA", "KRW-XRP", "KRW-ETC"]  
 lower25 = [] 
 higher72 = []
 higher77 = [] 
@@ -34,10 +34,13 @@ def buy(coin):
     money = upbit.get_balance("KRW") 
     amount = upbit.get_balance(coin) 
     cur_price = pyupbit.get_current_price(coin) 
-    total = amount * cur_price 
-    h = 2000000 # get unit
-    w = 0.97
-    if total < h * w : 
+    avg_price = upbit.get_avg_buy_price(coin)
+    total = amount * cur_price
+    rate_return = cur_price / avg_price * 100
+    h = 100000 # get unit 
+    if total <= 1000 and money > 101000 : 
+        res = upbit.buy_market_order(coin, h) 
+    elif 1000 < total < 1000000 and rate_return < 97 and money > 101000 : 
         res = upbit.buy_market_order(coin, h) 
     else : 
         pass 
@@ -47,12 +50,12 @@ def buy(coin):
 def sell(coin): 
     amount = upbit.get_balance(coin) 
     cur_price = pyupbit.get_current_price(coin) 
+    avg_price = upbit.get_avg_buy_price(coin)
     total = amount * cur_price 
-    ys = 1.011 #target gain
-    h = 2000000 # get unit
-    if h * ys < total < h * 1.5 : 
+    rate_return = cur_price / avg_price * 100
+    if 1000 < total <= 300000 and rate_return > 103 : 
         res = upbit.sell_market_order(coin, amount) 
-    elif h * 2 * ys < total < h * 3 : 
+    elif total > 300000 and rate_return > 103 : 
         res = upbit.sell_market_order(coin, amount * 0.5) 
     else : 
         pass
@@ -66,7 +69,7 @@ for i in range(len(coinlist)):
 
 while(True): 
     for i in range(len(coinlist)): 
-        data = pyupbit.get_ohlcv(ticker=coinlist[i], interval="minute3") 
+        data = pyupbit.get_ohlcv(ticker=coinlist[i], interval="minute3") # choose RSI time
         now_rsi = rsi(data, 14).iloc[-1] 
         print("coin name: ", coinlist[i]) 
         print("time: ", datetime.datetime.now()) 
@@ -77,19 +80,16 @@ while(True):
         elif now_rsi >= 29 and lower25[i] == True: 
             buy(coinlist[i]) 
             lower25[i] = False
-
         elif 72 <= now_rsi < 77 :
             higher72[i] = True
         elif now_rsi < 68 and higher72[i] == True: 
             sell(coinlist[i]) 
             higher72[i] = False
-
         elif now_rsi >= 77 :
             higher77[i] = True
-        
+            higher72[i] = False    
         elif now_rsi < 73 and higher77[i] == True: 
             sell(coinlist[i]) 
             higher77[i] = False
-            higher72[i] = False
     
-    time.sleep(3)
+    time.sleep(10)
