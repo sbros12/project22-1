@@ -36,13 +36,13 @@ def buy(coin):
     cur_price = pyupbit.get_current_price(coin) 
     avg_price = upbit.get_avg_buy_price(coin)
     total = amount * cur_price
-    rate_return = cur_price / avg_price * 100
+    rate_return = cur_price / (avg_price + 0.00001) * 100
     h = 100000 # get unit 
     if total <= 1000 and money > 101000 : 
         res = upbit.buy_market_order(coin, h) 
-    elif 1000 < total < 1000000 and rate_return < 97 and money > 101000 : 
+    elif 1000 < total < 1000000 and rate_return < 98 and money > 101000 : 
         res = upbit.buy_market_order(coin, h) 
-    else : 
+    else :  
         pass 
     return
 
@@ -52,7 +52,7 @@ def sell(coin):
     cur_price = pyupbit.get_current_price(coin) 
     avg_price = upbit.get_avg_buy_price(coin)
     total = amount * cur_price 
-    rate_return = cur_price / avg_price * 100
+    rate_return = cur_price / (avg_price + 0.00001) * 100
     if 1000 < total <= 300000 and rate_return > 103 : 
         res = upbit.sell_market_order(coin, amount) 
     elif total > 300000 and rate_return > 103 : 
@@ -80,16 +80,19 @@ while(True):
         elif now_rsi >= 29 and lower25[i] == True: 
             buy(coinlist[i]) 
             lower25[i] = False
+            
         elif 72 <= now_rsi < 77 :
             higher72[i] = True
         elif now_rsi < 68 and higher72[i] == True: 
             sell(coinlist[i]) 
             higher72[i] = False
+
         elif now_rsi >= 77 :
             higher77[i] = True
-            higher72[i] = False    
+                
         elif now_rsi < 73 and higher77[i] == True: 
             sell(coinlist[i]) 
             higher77[i] = False
+            higher72[i] = False
     
-    time.sleep(10)
+    time.sleep(2)
