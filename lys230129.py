@@ -76,8 +76,10 @@ for i in range(len(coinlist)):
     smember.append(False)
     lower1.append(False) 
     lower2.append(False) 
+    lower3.append(False)
     higher1.append(False)
     higher2.append(False)
+    higher3.append(False)
 
 while(True): 
     for i in range(len(coinlist)): 
