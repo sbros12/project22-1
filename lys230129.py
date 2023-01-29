@@ -89,6 +89,7 @@ while(True):
         print("time: ", datetime.datetime.now()) 
         print("RSI :", now_rsi) 
         print() 
+        time.sleep(0.05)
         
         if 36 <= now_rsi <= 66 :
             smember[i] = True 
@@ -137,4 +138,4 @@ while(True):
             sell(coinlist[i]) 
             smember[i] = False
     
-    time.sleep(5)
+    time.sleep(2)
