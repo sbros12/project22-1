@@ -40,7 +40,7 @@ def buy(coin):
     h = 100000 # get unit 
     if total <= 1000 and money > 101000 : 
         res = upbit.buy_market_order(coin, h) 
-    elif 1000 < total < 1000000 and rate_return < 98 and money > 101000 : 
+    elif 1000 < total < 1000000 and rate_return < 95 and money > 101000 : 
         res = upbit.buy_market_order(coin, h) 
     else :  
         pass 
@@ -53,10 +53,12 @@ def sell(coin):
     avg_price = upbit.get_avg_buy_price(coin)
     total = amount * cur_price 
     rate_return = cur_price / (avg_price + 0.00001) * 100
-    if 1000 < total <= 300000 and rate_return > 103 : 
+    if 100000 < total <= 500000 and rate_return > 101.5 : 
         res = upbit.sell_market_order(coin, amount) 
-    elif total > 300000 and rate_return > 103 : 
+    elif total > 500000 and 101.5 < rate_return < 103 : 
         res = upbit.sell_market_order(coin, amount * 0.5) 
+    elif total > 500000 and rate_return >= 103 :
+        res = upbit.sell_market_order(coin, amount) 
     else : 
         pass
     return
