@@ -21,7 +21,7 @@ def rsi(ohlc: pandas.DataFrame, period: int = 14):
 
 # coin list
 coinlist = ["KRW-APT", "KRW-BTC", "KRW-SAND", "KRW-MANA", "KRW-MTL", "KRW-PUNDIX", "KRW-ETH", "KRW-DOGE", "KRW-GMT", "KRW-BCH", "KRW-NEAR", "KRW-XTZ", "KRW-BTG", "KRW-BAT", "KRW-SBD", "KRW-ENJ", "KRW-SOL", "KRW-FLOW", "KRW-SRM", "KRW-AXS", "KRW-AVAX", "KRW-XRP", "KRW-ETC"]  
-SMEMBER = [] 
+smember = [] 
 lower1 = [] 
 lower2 = [] 
 lower3 = [] 
