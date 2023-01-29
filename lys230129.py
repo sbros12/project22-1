@@ -71,7 +71,7 @@ for i in range(len(coinlist)):
 
 while(True): 
     for i in range(len(coinlist)): 
-        data = pyupbit.get_ohlcv(ticker=coinlist[i], interval="minute3") # choose RSI time
+        data = pyupbit.get_ohlcv(ticker=coinlist[i], interval="minute5") # choose RSI time
         now_rsi = rsi(data, 14).iloc[-1] 
         print("coin name: ", coinlist[i]) 
         print("time: ", datetime.datetime.now()) 
@@ -79,13 +79,13 @@ while(True):
         print() 
         if now_rsi <= 25 : 
             lower25[i] = True 
-        elif now_rsi >= 29 and lower25[i] == True: 
+        elif now_rsi >= 27 and lower25[i] == True: 
             buy(coinlist[i]) 
             lower25[i] = False
             
         elif 72 <= now_rsi < 77 :
             higher72[i] = True
-        elif now_rsi < 68 and higher72[i] == True: 
+        elif now_rsi < 70 and higher72[i] == True: 
             sell(coinlist[i]) 
             higher72[i] = False
 
@@ -97,4 +97,4 @@ while(True):
             higher77[i] = False
             higher72[i] = False
     
-    time.sleep(2)
+    time.sleep(5)
